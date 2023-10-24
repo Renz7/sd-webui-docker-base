@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt update -y \
     && apt install -yqq --no-install-recommends wget git python3.10-dev python3-venv python3-psutil python3-pip libgl1 libglib2.0-0 aria2
 
-RUN pip3 install -U pip setuptools
+RUN pip3 install -U pip setuptools -i https://pypi.douban.com/simple
 
 # Install xFormers (will install PyTorch as well)
 #RUN pip install -U torch xformers
@@ -26,7 +26,7 @@ RUN pip3 install -U pip setuptools
 # All remaining deps are described in txt
 COPY ["requirements.txt","/root/"]
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r /root/requirements.txt
+    pip3 install -r /root/requirements.txt -i https://pypi.douban.com/simple -v  --use-pep517
 
 # Fix for libs (.so files)
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib64/python3.11/site-packages/torch/lib"
